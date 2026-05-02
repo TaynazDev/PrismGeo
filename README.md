@@ -1,4 +1,4 @@
-# Clickmap
+# PrismGeo
 
 An interactive, single-page world map application with real-time weather, local time, and comprehensive city/country search. Features a modern Flightradar24-inspired design with Apple Weather-style widgets and seamless navigation.
 

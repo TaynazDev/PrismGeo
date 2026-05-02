@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clickmap - Interactive World Map</title>
+    <title>PrismGeo - Interactive World Map</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@400;600;700;900&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -1160,7 +1160,7 @@
         }
 
         .splash-title::before {
-            content: 'Clickmap';
+            content: 'PrismGeo';
             position: absolute;
             top: 0;
             left: 0;
@@ -1279,6 +1279,313 @@
             letter-spacing: 0.05em;
         }
 
+        /* ─── Prism Theme Toggle (experimental) ─────────────────────────── */
+        .prism-theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            height: 48px;
+            border: none;
+        }
+
+        .prism-theme-toggle:hover {
+            background: linear-gradient(135deg, rgba(232,130,154,0.35) 0%, rgba(179,157,192,0.35) 50%, rgba(122,174,204,0.35) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 36px rgba(232,130,154,0.2);
+        }
+
+        .prism-theme-toggle:active {
+            transform: translateY(0);
+        }
+
+        .prism-theme-toggle-text {
+            color: #1a1a1a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+
+        .prism-theme-switch {
+            width: 40px;
+            height: 22px;
+            background: rgba(100, 100, 100, 0.3);
+            border-radius: 11px;
+            position: relative;
+            transition: background 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .prism-theme-switch.active {
+            background: linear-gradient(135deg, #E8829A 0%, #b39dc0 50%, #7AAECC 100%);
+        }
+
+        .prism-theme-knob {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .prism-theme-switch.active .prism-theme-knob {
+            transform: translateX(18px);
+        }
+
+        /* ─── Prism Theme ─────────────────────────────────────────────────── */
+        body.prism-theme {
+            --pt-bg: #0c0c0e;
+            --pt-surface: #131316;
+            --pt-surface2: #1a1a1f;
+            --pt-surface3: #202026;
+            --pt-border: rgba(255,255,255,0.06);
+            --pt-border2: rgba(255,255,255,0.11);
+            --pt-text: #eeecf4;
+            --pt-muted: rgba(238,236,244,0.6);
+            --pt-faint: rgba(238,236,244,0.3);
+            --pt-pink: #E8829A;
+            --pt-blue: #7AAECC;
+            --pt-purple: #b39dc0;
+            --pt-grad: linear-gradient(135deg, #E8829A 0%, #b39dc0 50%, #7AAECC 100%);
+            background: var(--pt-bg) !important;
+            font-family: 'DM Sans', sans-serif !important;
+            color: var(--pt-text) !important;
+        }
+
+        /* Logo */
+        body.prism-theme .logo h1 {
+            font-family: 'Syne', sans-serif !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.05em !important;
+            text-transform: uppercase !important;
+            background: var(--pt-grad) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            text-shadow: none !important;
+        }
+
+        /* Dock / controls bar */
+        body.prism-theme .controls {
+            background: rgba(19,19,22,0.85) !important;
+            border: 0.5px solid var(--pt-border2) !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5),
+                        inset 0 1px 0 rgba(255,255,255,0.06) !important;
+        }
+
+        body.prism-theme .control-btn {
+            color: var(--pt-muted) !important;
+        }
+
+        body.prism-theme .control-btn:hover {
+            background: rgba(255,255,255,0.08) !important;
+            color: var(--pt-text) !important;
+        }
+
+        body.prism-theme .prism-theme-toggle-text {
+            color: var(--pt-text) !important;
+        }
+
+        body.prism-theme .prism-theme-toggle {
+            background: rgba(255,255,255,0.06) !important;
+        }
+
+        body.prism-theme .prism-theme-toggle:hover {
+            background: rgba(255,255,255,0.10) !important;
+        }
+
+        body.prism-theme .satellite-toggle {
+            background: rgba(255,255,255,0.06) !important;
+        }
+
+        body.prism-theme .satellite-toggle:hover {
+            background: rgba(255,255,255,0.10) !important;
+            box-shadow: none !important;
+        }
+
+        body.prism-theme .satellite-toggle-text {
+            color: var(--pt-muted) !important;
+        }
+
+        body.prism-theme .experimental-button {
+            background: rgba(255,255,255,0.06) !important;
+        }
+
+        body.prism-theme .experimental-button:hover {
+            background: rgba(255,255,255,0.12) !important;
+        }
+
+        body.prism-theme .experimental-button svg {
+            stroke: var(--pt-muted) !important;
+        }
+
+        /* Info panel */
+        body.prism-theme .info-panel {
+            background: var(--pt-surface) !important;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.5) !important;
+        }
+
+        body.prism-theme .panel-header {
+            background: var(--pt-grad) !important;
+        }
+
+        body.prism-theme .panel-content {
+            background: var(--pt-surface) !important;
+            color: var(--pt-text) !important;
+        }
+
+        body.prism-theme .info-row {
+            border-bottom-color: var(--pt-border) !important;
+        }
+
+        body.prism-theme .info-label {
+            color: var(--pt-muted) !important;
+        }
+
+        body.prism-theme .info-value {
+            color: var(--pt-text) !important;
+        }
+
+        body.prism-theme .city-selector label {
+            color: var(--pt-muted) !important;
+        }
+
+        body.prism-theme .city-dropdown {
+            background: var(--pt-surface2) !important;
+            color: var(--pt-text) !important;
+            border-color: var(--pt-border2) !important;
+            box-shadow: none !important;
+        }
+
+        body.prism-theme .learn-more-btn {
+            background: var(--pt-grad) !important;
+        }
+
+        body.prism-theme .learn-more-btn:hover {
+            box-shadow: 0 5px 15px rgba(232,130,154,0.35) !important;
+        }
+
+        /* Weather widget */
+        body.prism-theme .weather-widget {
+            background: linear-gradient(135deg, #1a1a2e 0%, #1e1b2e 50%, #16213e 100%) !important;
+            border: 0.5px solid var(--pt-border2) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+        }
+
+        /* Search sidebar */
+        body.prism-theme .search-sidebar {
+            background: var(--pt-surface) !important;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.5) !important;
+        }
+
+        body.prism-theme .search-header {
+            background: var(--pt-grad) !important;
+        }
+
+        body.prism-theme .search-input {
+            background: var(--pt-surface2) !important;
+            color: var(--pt-text) !important;
+            border-color: var(--pt-border2) !important;
+            box-shadow: none !important;
+        }
+
+        body.prism-theme .search-input::placeholder {
+            color: var(--pt-faint) !important;
+        }
+
+        body.prism-theme .search-input:focus {
+            border-color: var(--pt-pink) !important;
+            box-shadow: 0 0 0 2px rgba(232,130,154,0.15) !important;
+        }
+
+        body.prism-theme .search-result-item {
+            background: var(--pt-surface2) !important;
+            color: var(--pt-text) !important;
+            box-shadow: none !important;
+        }
+
+        body.prism-theme .search-result-item:hover {
+            background: var(--pt-grad) !important;
+            color: white !important;
+        }
+
+        body.prism-theme .result-type {
+            color: var(--pt-muted) !important;
+        }
+
+        /* Map: country colours */
+        body.prism-theme .country {
+            fill: #1e1e28 !important;
+            stroke: #0c0c0e !important;
+        }
+
+        body.prism-theme .country:hover {
+            fill: var(--pt-pink) !important;
+            stroke: var(--pt-purple) !important;
+        }
+
+        body.prism-theme .country.active {
+            fill: var(--pt-pink) !important;
+            stroke: var(--pt-purple) !important;
+        }
+
+        body.prism-theme .country-label {
+            fill: var(--pt-faint) !important;
+        }
+
+        /* Ocean */
+        body.prism-theme .ocean {
+            fill: #0a0f1a !important;
+        }
+
+        /* Events bar */
+        body.prism-theme .events-bar {
+            background: linear-gradient(135deg,
+                rgba(232,130,154,0.88) 0%,
+                rgba(179,157,192,0.85) 50%,
+                rgba(122,174,204,0.88) 100%) !important;
+        }
+
+        /* UTC time */
+        body.prism-theme .utc-time {
+            color: var(--pt-muted) !important;
+            text-shadow: none !important;
+        }
+
+        /* History button */
+        body.prism-theme .history-button {
+            background: var(--pt-surface2) !important;
+            border-color: var(--pt-border2) !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+        }
+
+        body.prism-theme .history-button svg {
+            stroke: var(--pt-muted) !important;
+        }
+
+        /* Splash while prism theme active */
+        body.prism-theme .splash-screen {
+            background: var(--pt-bg) !important;
+        }
+
+        body.prism-theme .splash-screen::before {
+            background: radial-gradient(circle, #b39dc0 0%, #E8829A 50%, #7AAECC 100%) !important;
+        }
+
+        body.prism-theme .splash-title {
+            font-family: 'Syne', sans-serif !important;
+        }
+
     </style>
 </head>
 <body>
@@ -1286,7 +1593,7 @@
     <div class="splash-screen" id="splash">
         <div class="splash-content">
             <div class="splash-logo">🌍</div>
-            <h1 class="splash-title">Clickmap</h1>
+            <h1 class="splash-title">PrismGeo</h1>
             <p class="splash-subtitle">Explore the world in real-time</p>
         </div>
         <div class="loading-container">
@@ -1303,7 +1610,7 @@
 
     <div class="top-gradient"></div>
     <div class="logo">
-        <h1>🌍 Clickmap</h1>
+        <h1>🌍 PrismGeo</h1>
     </div>
     <div class="utc-time" id="utc-time"></div>
 
@@ -1377,6 +1684,14 @@
                     <span class="satellite-toggle-text">Satellite</span>
                     <div class="satellite-toggle-switch" id="satellite-switch">
                         <div class="satellite-toggle-knob"></div>
+                    </div>
+                </div>
+
+                <!-- Prism Theme Toggle -->
+                <div class="prism-theme-toggle" id="prism-theme-toggle" style="display: none;">
+                    <span class="prism-theme-toggle-text">Prism Theme</span>
+                    <div class="prism-theme-switch" id="prism-theme-switch">
+                        <div class="prism-theme-knob"></div>
                     </div>
                 </div>
             </div>
@@ -3239,8 +3554,22 @@
         const satelliteToggle = document.getElementById('satellite-toggle');
         const satelliteSwitch = document.getElementById('satellite-switch');
         const historyButton = document.getElementById('history-button');
+        const prismThemeToggle = document.getElementById('prism-theme-toggle');
+        const prismThemeSwitch = document.getElementById('prism-theme-switch');
         let satelliteModeActive = false;
         let retroModeActive = false;
+        let prismThemeActive = false;
+
+        prismThemeToggle.addEventListener('click', () => {
+            prismThemeActive = !prismThemeActive;
+            if (prismThemeActive) {
+                prismThemeSwitch.classList.add('active');
+                document.body.classList.add('prism-theme');
+            } else {
+                prismThemeSwitch.classList.remove('active');
+                document.body.classList.remove('prism-theme');
+            }
+        });
 
         experimentalButton.addEventListener('click', () => {
             // If already enabled, disable without popup
@@ -3265,6 +3594,8 @@
             experimentalFeaturesEnabled = true;
             // Show satellite toggle
             satelliteToggle.style.display = 'flex';
+            // Show prism theme toggle
+            prismThemeToggle.style.display = 'flex';
             // Show events bar immediately with loading message
             eventsBar.classList.add('visible');
             showInitialEvents();
@@ -3294,6 +3625,13 @@
             experimentalFeaturesEnabled = false;
             // Hide satellite toggle
             satelliteToggle.style.display = 'none';
+            // Hide prism theme toggle and disable theme if active
+            prismThemeToggle.style.display = 'none';
+            if (prismThemeActive) {
+                prismThemeActive = false;
+                prismThemeSwitch.classList.remove('active');
+                document.body.classList.remove('prism-theme');
+            }
             // Disable retro mode if active
             if (document.body.classList.contains('retro-mode')) {
                 document.body.classList.remove('retro-mode');
